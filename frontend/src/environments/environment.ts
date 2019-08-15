@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  API_URL: 'http://api-voadora.tegra.com.br'
+  API_URL: 'https://api-voadora.dev.tegra.com.br'
 };
 
 /*
