@@ -1,0 +1,29 @@
+<div class="app-search-wrapper">
+  <h4>Pesquisa de Voos</h4>
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="15px" fxLayoutAlign="start center">
+    <mat-form-field>
+      <mat-label>Aeroporto de Origem</mat-label>
+      <mat-select>
+        <mat-option value="Volvo">Volvo</mat-option>
+        <mat-option value="Fiat">Fiat</mat-option>
+        <mat-option value="Ford">Ford</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Aeroporto de Destino</mat-label>
+      <mat-select>
+        <mat-option value="Volvo">Volvo</mat-option>
+        <mat-option value="Fiat">Fiat</mat-option>
+        <mat-option value="Ford">Ford</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker" placeholder="Data de Saída">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center">
+    <button mat-raised-button color="primary">Pesquisar Voos</button>
+  </div>
+</div>
