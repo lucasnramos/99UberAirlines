@@ -48,6 +48,7 @@ import {CdkStepperModule} from '@angular/cdk/stepper';
 import {CdkTableModule} from '@angular/cdk/table';
 import {CdkTreeModule} from '@angular/cdk/tree';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 /**
  * NgModule that includes all Material modules.
@@ -85,7 +86,8 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     MatInputModule,
     MatListModule,
     MatMenuModule,
-    MatNativeDateModule,
+    // MatNativeDateModule,
+    MatMomentDateModule,
     MatPaginatorModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,

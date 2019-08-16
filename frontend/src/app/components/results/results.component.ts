@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ApiService } from 'src/app/services/api.service';
 
 export interface PeriodicElement {
   name: string;
@@ -29,9 +31,13 @@ export class ResultsComponent implements OnInit {
 
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = ELEMENT_DATA;
-  constructor() { }
+  flights$: Observable<any>;
+  constructor(
+    private apiService: ApiService
+  ) { }
 
   ngOnInit() {
+    this.flights$ = this.apiService.flights;
   }
 
 

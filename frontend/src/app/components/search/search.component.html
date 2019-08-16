@@ -1,29 +1,31 @@
 <div class="app-search-wrapper">
   <h4>Pesquisa de Voos</h4>
-  <div fxLayout="column" fxLayoutGap="15px">
-    <mat-form-field>
-      <mat-label>Aeroporto de Origem</mat-label>
-      <mat-select>
-        <mat-option  *ngFor="let airport of airports$ | async" [value]="airport.aeroporto">
-          {{ airport.nome }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Aeroporto de Destino</mat-label>
-      <mat-select>
-        <mat-option  *ngFor="let airport of airports$ | async" [value]="airport.aeroporto">
-            {{ airport.nome }}
-          </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="20px">
+  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+    <div fxLayout="column" fxLayoutGap="15px">
       <mat-form-field>
-        <input matInput [matDatepicker]="picker" placeholder="Data de Saída">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
+        <mat-label>Aeroporto de Origem</mat-label>
+        <mat-select formControlName="from" name="from" required>
+          <mat-option *ngFor="let airport of airports$ | async" [value]="airport.aeroporto">
+            {{ airport.aeroporto }} - {{ airport.nome }}, {{ airport.cidade }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
-    <button mat-raised-button color="primary">Pesquisar Voos</button>
-  </div>
+      <mat-form-field>
+        <mat-label>Aeroporto de Destino</mat-label>
+        <mat-select formControlName="to" name="to" required>
+          <mat-option *ngFor="let airport of airports$ | async" [value]="airport.aeroporto">
+            {{ airport.aeroporto }} - {{ airport.nome }}, {{ airport.cidade }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="20px">
+      <mat-form-field>
+        <input formControlName="date" name="date" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" placeholder="Data de Saída" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker [startAt]="startDate"></mat-datepicker>
+      </mat-form-field>
+      <button type="submit" [disabled]="!searchForm.valid" mat-raised-button color="primary">Pesquisar Voos</button>
+    </div>
+  </form>
 </div>
