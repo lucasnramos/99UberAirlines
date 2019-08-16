@@ -44,7 +44,7 @@ export class SearchComponent implements OnInit {
       to: this.searchForm.value.to,
       date: this.searchForm.value.date.format('YYYY-MM-DD'),
     };
-    console.log(postData);
+
     this.apiService.searchFlights(postData);
   }
 
