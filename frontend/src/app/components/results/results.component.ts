@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
 import { IFlight } from 'src/app/models/IFlight';
 import { tap, map } from 'rxjs/operators';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-results',
@@ -11,7 +12,7 @@ import { tap, map } from 'rxjs/operators';
 })
 export class ResultsComponent implements OnInit {
 
-  flights$: Observable<IFlight[]>;
+  // flights$: Observable<IFlight[]>;
   flights: IFlight[];
   filters: ['valor', 'tempo_voo'];
   totalCost: number;
@@ -21,7 +22,7 @@ export class ResultsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.flights$ = this.apiService.flights;
+    // this.flights$ = this.apiService.flights;
     this.apiService.flights.subscribe((flights: IFlight[]) => {
       this.flights = flights.map((flight) => {
         // Calculate total cost
@@ -34,8 +35,11 @@ export class ResultsComponent implements OnInit {
   }
 
   calculateTotalFlightTime(flight: IFlight) {
-    console.log(flight.voos);
-    return 10;
+    return flight.voos.reduce((time, voo) => {
+      const saida = moment(voo.saida, 'H:mm');
+      const chegada = moment(voo.chegada, 'H:mm');
+      return time += (chegada.hours() - saida.hours());
+    }, 0);
   }
 
   calculateTotalCost(flight: IFlight) {
@@ -47,10 +51,9 @@ export class ResultsComponent implements OnInit {
 
   sortFlights(event: any) {
     if (event.value === 'valor') {
-      console.log('sorting by value');
       this.flights.sort((a, b) => a.valorTotal - b.valorTotal);
-      console.log(this.flights);
     } else {
+      this.flights.sort((a, b) => a.tempoTotalVoo - b.tempoTotalVoo);
       console.log('sorting by time');
     }
   }
