@@ -5,4 +5,6 @@ export interface IFlight {
     destino: string;
     date: string;
     voos: IVoo[];
+    valorTotal?: number;
+    tempoTotalVoo?: number;
 }

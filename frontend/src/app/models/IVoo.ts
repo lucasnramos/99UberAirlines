@@ -6,5 +6,4 @@ export interface IVoo {
     saida: string; // "12:00",
     chegada: string; // "13:00",
     valor: number; // 106.25
-
 }

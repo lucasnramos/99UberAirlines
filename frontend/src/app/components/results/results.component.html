@@ -1,36 +1,73 @@
-<table mat-table [dataSource]="flights$" class="mat-elevation-z8">
-  <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
-
-  <!-- Position Column -->
+<!-- <table mat-table [dataSource]="flights$" class="mat-elevation-z8">
   <ng-container matColumnDef="position">
     <th mat-header-cell *matHeaderCellDef> Origem </th>
     <td mat-cell *matCellDef="let element"> {{element.origem}} </td>
   </ng-container>
 
-  <!-- Name Column -->
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef> Destino </th>
     <td mat-cell *matCellDef="let element"> {{element.destino}} </td>
   </ng-container>
 
-  <!-- Weight Column -->
   <ng-container matColumnDef="weight">
     <th mat-header-cell *matHeaderCellDef> Data de Saída </th>
     <td mat-cell *matCellDef="let element"> {{element.date}} </td>
   </ng-container>
 
-  <!-- Symbol Column -->
   <ng-container matColumnDef="symbol">
     <th mat-header-cell *matHeaderCellDef> Voos </th>
     <td mat-cell *matCellDef="let element">
       <div *ngFor="let voo of element.voos">
-        {{ voo | json}}
+        <p>Origem: {{ voo.origem }} - Destino: {{ voo.destino }}</p>
+        <p>Valor: R$ {{ voo.valor | number:'1.2' }}</p>
+        <p>Data de Saída: {{ voo.data_saida }}</p>
+        <p>Horário de Saída: {{ voo.saida }} - Horário de Chegada: {{ voo.chegada }}</p>
+        <hr>
       </div>
     </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+</table> -->
 
+<div class="text-center">
+  <h2>Voos Disponíveis</h2>
+  <h3 *ngIf="(flights$ | async)?.length == 0">Os resultados da sua pesquisa serão mostrados aqui</h3>
+</div>
+<div class="filter" *ngIf="(flights$ | async)?.length > 0">
+  <mat-form-field>
+    <mat-label>Ordenar por:</mat-label>
+    <mat-select (selectionChange)="sortFlights($event)">
+      <mat-option value="valor">
+        Menor preço 
+      </mat-option>
+      <mat-option value="tempo_total">
+        Tempo Total de Voo
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+
+<mat-accordion *ngFor="let flight of flights$ | async" style="margin: 15px;">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Origem: {{ flight.origem }} - Destino: {{ flight.destino }}
+      </mat-panel-title>
+      <mat-panel-description>
+        Preço R$ {{ flight.valorTotal }} - 
+        tempo de Voo {{ flight.tempoTotalVoo }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div *ngFor="let voo of flight.voos">
+      <p>Aeroporto de Origem: <strong>{{ voo.origem }}</strong></p>
+      <p>Aeroporto de Destino: <strong>{{ voo.destino }}</strong></p>
+      <p>Data de Saída <strong>{{ voo.data_saida }}</strong></p>
+      <p>Horário de Saída: <strong>{{ voo.saida }}</strong></p>
+      <p>Horário de Chegada: <strong>{{ voo.chegada }}</strong></p>
+      <p>Valor <strong>R$ {{ voo.valor }}</strong></p>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

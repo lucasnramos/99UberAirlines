@@ -2,26 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
 import { IFlight } from 'src/app/models/IFlight';
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
+import { tap, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-results',
@@ -30,16 +11,48 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class ResultsComponent implements OnInit {
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = ELEMENT_DATA;
   flights$: Observable<IFlight[]>;
+  flights: IFlight[];
+  filters: ['valor', 'tempo_voo'];
+  totalCost: number;
+
   constructor(
     private apiService: ApiService
   ) { }
 
   ngOnInit() {
     this.flights$ = this.apiService.flights;
+    this.apiService.flights.subscribe((flights: IFlight[]) => {
+      this.flights = flights.map((flight) => {
+        // Calculate total cost
+        flight.valorTotal = this.calculateTotalCost(flight);
+        // calculate total fligth time
+        flight.tempoTotalVoo = this.calculateTotalFlightTime(flight);
+        return flight;
+      });
+    });
   }
 
+  calculateTotalFlightTime(flight: IFlight) {
+    console.log(flight.voos);
+    return 10;
+  }
+
+  calculateTotalCost(flight: IFlight) {
+    const totalCost = flight.voos.reduce((cost, _flight) => {
+      return cost + _flight.valor;
+    }, 0);
+    return totalCost;
+  }
+
+  sortFlights(event: any) {
+    if (event.value === 'valor') {
+      console.log('sorting by value');
+      this.flights.sort((a, b) => a.valorTotal - b.valorTotal);
+      console.log(this.flights);
+    } else {
+      console.log('sorting by time');
+    }
+  }
 
 }
