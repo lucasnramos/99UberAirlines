@@ -22,3 +22,8 @@ Instale as dependências com o NPM
 `npm install`
 
 Inicie um servidor local com `npm start` e navegue para http://localhost:4200.
+
+## Melhorias futuras
+
+[] Caso não haja resultados para origem e destinos selecionados, mostrar mensagem de alerta ao usuário
+[] Exibir um aviso quando o aeroporto de origem for o mesmo de destino (ou impedir essa escolha)
