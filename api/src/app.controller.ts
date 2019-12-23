@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller('flight')
@@ -7,10 +7,10 @@ export class AppController {
 
   @Get()
   getAirports(): string {
-    return this.appService.getHello();
+    return this.appService.getAirports();
   }
-  @Get('companies')
+  @Post('companies')
   searchFlights(): string {
-    return this.appService.getHello();
+    return this.appService.searchFlights();
   }
 }
